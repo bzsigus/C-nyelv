@@ -28,12 +28,16 @@ int main(int *argc, char *argv){
                 printf("Option 4.\n");
                 break;
             case 5:
+                printf("Option 5 \n");
+                break;
+            
+            case 6:
                 return 0;
             default:
                 printf("Invalid choice. Please enter a valid option.\n");
         }
 
-    } while (choice != 5);
+    } while (choice != 6);
 
 }
 
@@ -46,7 +50,8 @@ void displayMenu(void) {
     printf("     2 - Generate matrix\n");
     printf("     3 - Load Mátrix:\n");
     printf("     4 - Save Matrix:\n");
-    printf("     5 - Exit\n\033[0m");
+    printf("     5 - Print Matrix\n");
+    printf("     6 - Exit\n\033[0m");
 }
 void userManual(void)
 {
@@ -67,7 +72,10 @@ void userManual(void)
     printf("4 - Save Mátrix:\n");
     printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot egy file-ba kiirjuk\n");
 
-    printf(" 5 - exit\n");
+    printf("5 - Print Matrix:\n");
+    printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot Kiirjuk a képernyőre\n");
+
+    printf(" 6 - exit\n");
     printf("Kilépés a programobol\n");
 
 }
