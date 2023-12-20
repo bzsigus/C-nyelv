@@ -39,14 +39,14 @@ int main(int *argc, char *argv){
 
 void displayMenu(void) {
     printf(" ---------------------\n");
-    printf("|Welcome in the Matrix|\n");
+    printf("| \033[0;32mWelcome in the Matrix \033[0m|\n");
     printf(" --------------------- \n");
     printf("   Your Options:\n");
-    printf("    1 - User Manual\n");
-    printf("    2 - Generate matrix\n");
-    printf("    3 - Load Mátrix:\n");
-    printf("    4 - Save Matrix:\n");
-    printf("    5 - exit\n");
+    printf("    \033[0;32m 1 - User Manual\n");
+    printf("     2 - Generate matrix\n");
+    printf("     3 - Load Mátrix:\n");
+    printf("     4 - Save Matrix:\n");
+    printf("     5 - Exit\n\033[0m");
 }
 void userManual(void)
 {
