@@ -5,7 +5,32 @@
 void displayMenu(void);
 void userManual(void);
 
+void printMatrix(int **matrix, int rows, int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            printf("%2d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void fillMatrix(int **matrix, int rows, int cols) {
+    int value = 8;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = value++;
+        }
+    }
+}
+
+
 int main(int *argc, char *argv){
+
+     int rows = 8;
+    int cols = 8;
+    int matrix[rows][cols];
+
+
     int choice;
     do {
         displayMenu();
@@ -28,7 +53,8 @@ int main(int *argc, char *argv){
                 printf("Option 4.\n");
                 break;
             case 5:
-                printf("Option 5 \n");
+                fillMatrix(matrix[rows][cols], rows, cols);
+                printMatrix(matrix[rows][cols], rows, cols);
                 break;
             
             case 6:
@@ -79,3 +105,5 @@ void userManual(void)
     printf("Kilépés a programobol\n");
 
 }
+
+
