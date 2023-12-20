@@ -1,49 +1,91 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 void displayMenu(void);
 void userManual(void);
 
-void printMatrix(int **matrix, int rows, int cols) {
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            printf("%2d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-void fillMatrix(int **matrix, int rows, int cols) {
-    int value = 8;
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            matrix[i][j] = value++;
-        }
-    }
-}
-
 
 int main(int *argc, char *argv){
 
-     int rows = 8;
-    int cols = 8;
-    int matrix[rows][cols];
-
-
-    int choice;
+    int menupont;
+    char rotation[3];
+    char irany[4]; 
+    int rows, cols;
+     int **matrix = NULL;
     do {
+
         displayMenu();
         printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
+        scanf("%d", &menupont);
+        switch (menupont) {
             case 1:
                 userManual();
                 break;
             case 2:
-                printf("You selected Option 2.\n");
-                // Add your code for Option 2 here
+                if(matrix != NULL)
+                {
+                     for (int i = 0; i < rows; ++i) {
+                            free(matrix[i]);
+                        }
+                        free(matrix);
+                }
+
+                do{
+                printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
+                scanf("%d", &rows);
+                }while(rows < 1 || rows > 20);
+                
+                do {
+                printf("Add meg a mátrix oszlopainak számát (1 és 20 között):");
+                scanf("%d", &cols);
+                }while(cols < 1 || cols > 20);
+                
+                do{
+                printf("Add meg hogy merre induljon el (jobb,bal,fel,le): ");
+                scanf("%s", irany);
+                getchar();
+                }while(strcmp(irany,"jobb") != 0 && strcmp(irany, "bal") != 0 && strcmp(irany,"fel") != 0 && strcmp(irany,"le") != 0);
+               
+                do {
+                printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
+                scanf("%s", rotation);
+                // Consume the newline character from the previous input
+                getchar();
+                } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
+
+
+                    // Mátrix inicializálása a heap-en
+                    matrix = (int **)malloc(rows * sizeof(int *));
+                    for (int i = 0; i < rows; ++i) {
+                        matrix[i] = (int *)malloc(cols * sizeof(int));
+                    }
+
+                int c = 0;
+                for (int i = 0; i < rows; i++)
+                {
+                    for (int j = 0; j < cols; j++)
+                    {
+                        matrix[i][j] = c++;
+                    }
+                    
+                }
+                
+
+
+
+                
+                printf("A mentett mátrix:\n");
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        printf("%2d ", matrix[i][j]);
+                    }
+                    printf("\n");
+                }
+
+                
+
                 break;
             case 3:
                 printf("You selected Option 3.\n");
@@ -53,8 +95,7 @@ int main(int *argc, char *argv){
                 printf("Option 4.\n");
                 break;
             case 5:
-                fillMatrix(matrix[rows][cols], rows, cols);
-                printMatrix(matrix[rows][cols], rows, cols);
+                
                 break;
             
             case 6:
@@ -63,9 +104,10 @@ int main(int *argc, char *argv){
                 printf("Invalid choice. Please enter a valid option.\n");
         }
 
-    } while (choice != 6);
+    } while (menupont != 6);
 
 }
+
 
 void displayMenu(void) {
     printf(" ---------------------\n");
