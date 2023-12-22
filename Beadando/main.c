@@ -34,7 +34,7 @@ int main(int *argc, char *argv){
                 if (matrix == NULL)
                 {
                 do{
-                printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
+                printf("Add meg hogy mekkora legyen a mátrux NxN (1 és 20 között): ");
                 scanf("%d", &rows);
                 }while(rows < 1 || rows > 20);
                 do{
@@ -45,13 +45,15 @@ int main(int *argc, char *argv){
                 do {
                 printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
                 scanf("%s", rotation);
-                
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
 
                 matrix = initmarix(rows);
+
                 if(matrix == NULL){
-                printf("nem sikerült a mátrix generálása próbáld ujra");
+                fprintf(stderr, "\033[1;31m\n");
+                fprintf(stderr, "Nem sikerült a mátrix generálása, próbáld újra\n");
+                fprintf(stderr, "\033[0m\n");
                 }
                 }
                 else{
@@ -74,12 +76,24 @@ int main(int *argc, char *argv){
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
                 matrix = initmarix(rows);
                 if(matrix == NULL){
-                printf("nem sikerült a mátrix generálása próbáld ujra");
+                fprintf(stderr, "\033[1;31m\n");
+                fprintf(stderr, "Nem sikerült a mátrix generálása, próbáld újra\n");
+                fprintf(stderr, "\033[0m\n");
                 }
                 }
                 break;
             case 3:
               //mátrix beolvasás
+                
+
+
+
+
+
+
+
+
+
                 break;
             case 4:
                 //aktuális mátrix kirajzolása
@@ -90,15 +104,28 @@ int main(int *argc, char *argv){
                 }
                 break;
             case 5:
+            //kész áthelyezve a filejába
+            /*
+            if(matrix == NULL)
+            {
+                printf("Nincs jelenleg mentett mátrix nem tudom kiirni");
+            }
+            else{
                 //mátrix kiirása fileba
-              //  writeMatrix(matrix,rows,rotation,irany);
+               writeMatrix(matrix,rows,rotation,irany);
+            }
+            */
                 break;
             
             case 6:
+            //kilép a programbol
                  freematrix(matrix,rows);
+                 printf("Visszavárunk!");
                 return 0;
             default:
-                printf("Invalid choice. Please enter a valid option.\n");
+                    fprintf(stderr, "\033[1;31m");
+                    fprintf(stderr, "Nincs ilyen opció, kérlek válassz az opciók közül\n");
+                    fprintf(stderr, "\033[0m");
         }
 
     } while (menupont != 6);
@@ -192,6 +219,5 @@ void printMatrix(int **matrix,int rows){
         }
             printf("\n");
         }
-
 
 }
