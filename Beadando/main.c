@@ -10,7 +10,8 @@ void userManual(void);
 int **initmarix(int rows);
 void freematrix(int **pt,int rows);
 void printMatrix(int **matrix,int rows);
-
+int **readMatrix(char fnev[100]);
+int rowcountwhenread(void);
 
 int main(int *argc, char *argv){
 
@@ -19,7 +20,8 @@ int main(int *argc, char *argv){
     char irany[4]; 
     int rows;
     int **matrix = NULL;
-    int beforerow,afterrow;
+    char nev[100];
+    int rowcount;
     do {
 
         displayMenu();
@@ -84,16 +86,20 @@ int main(int *argc, char *argv){
                 break;
             case 3:
               //mátrix beolvasás
-                
-
-
-
-
-
-
-
-
-
+                if(matrix == NULL)
+                {
+                    printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
+                    scanf("%s", nev);
+                    getchar();
+                    matrix = readMatrix(nev);
+                }
+                else{
+                    freematrix(matrix,rows);
+                    printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
+                    scanf("%s", nev);
+                    getchar();
+                    matrix = readMatrix(nev);
+                }
                 break;
             case 4:
                 //aktuális mátrix kirajzolása
@@ -120,7 +126,7 @@ int main(int *argc, char *argv){
             case 6:
             //kilép a programbol
                  freematrix(matrix,rows);
-                 printf("Visszavárunk!");
+                 printf("Köszönöm hogy használtad a programom,Visszavárunk!\n");
                 return 0;
             default:
                     fprintf(stderr, "\033[1;31m");
@@ -221,3 +227,53 @@ void printMatrix(int **matrix,int rows){
         }
 
 }
+
+
+int **readMatrix(char fnev[100]){
+
+ FILE* file = fopen(fnev, "r");
+    if (!file) {
+        fprintf(stderr, "Nem sikerült megnyitni a fajlt: %s\n", fnev);
+        return NULL;
+    }
+
+    // Mátrix inicializálása
+    int rows = 0;
+    int cols = 0;
+    int** matrix = NULL;
+
+    // Mátrix elemeinek beolvasása a fájlból és dinamikus reallokálás
+    int val;
+    while (fscanf(file, "%d", &val) == 1) {
+        // Mátrix sorainak dinamikus reallokálása
+        matrix = realloc(matrix, (rows + 1) * sizeof(int*));
+
+        // Mátrix sorának dinamikus lefoglalása
+        matrix[rows] = malloc((cols + 1) * sizeof(int));
+
+        // Mátrix elemének beolvasása
+        matrix[rows][cols] = val;
+
+        // Oszlop növelése
+        cols++;
+
+        // Ellenőrzés, hogy elértük-e a sor végét
+        if (fgetc(file) == '\n') {
+            // Jelenlegi sor befejeződött
+            rows++;
+            cols = 0;
+        }
+        else {
+            // Visszaugrás egy karakterrel, hogy a következő ciklusban be tudjuk olvasni a következő elemet
+            fseek(file, -1, SEEK_CUR);
+        }
+    }
+
+    // Fájl bezárása
+    fclose(file);
+
+
+
+        return matrix;
+}
+
