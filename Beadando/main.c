@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include "filekezels.h"
+//#include "matrixgeneralas.h"
 
 
 void displayMenu(void);
 void userManual(void);
-int **initmarix(int rows,int cols);
+int **initmarix(int rows);
 void freematrix(int **pt,int rows);
-void printMatrix(int **matrix,int rows,int cols);
+void printMatrix(int **matrix,int rows);
 
 
 int main(int *argc, char *argv){
@@ -15,10 +17,9 @@ int main(int *argc, char *argv){
     int menupont;
     char rotation[3];
     char irany[4]; 
-    int rows, cols;
+    int rows;
     int **matrix = NULL;
     int beforerow,afterrow;
-    char filename[];
     do {
 
         displayMenu();
@@ -36,10 +37,6 @@ int main(int *argc, char *argv){
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
                 }while(rows < 1 || rows > 20);
-                do {
-                printf("Add meg a mátrix oszlopainak számát (1 és 20 között):");
-                scanf("%d", &cols);
-                }while(cols < 1 || cols > 20);
                 do{
                 printf("Add meg hogy merre induljon el (jobb,bal,fel,le): ");
                 scanf("%s", irany);
@@ -52,7 +49,10 @@ int main(int *argc, char *argv){
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
 
-                matrix = initmarix(rows,cols);
+                matrix = initmarix(rows);
+                if(matrix == NULL){
+                printf("nem sikerült a mátrix generálása próbáld ujra");
+                }
                 }
                 else{
 
@@ -61,11 +61,6 @@ int main(int *argc, char *argv){
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
                 }while(rows < 1 || rows > 20);
-                do {
-                printf("Add meg a mátrix oszlopainak számát (1 és 20 között):");
-                scanf("%d", &cols);
-                }while(cols < 1 || cols > 20);
-                
                 do{
                 printf("Add meg hogy merre induljon el (jobb,bal,fel,le): ");
                 scanf("%s", irany);
@@ -77,24 +72,26 @@ int main(int *argc, char *argv){
                 scanf("%s", rotation);
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
-                matrix = initmarix(rows,cols);
+                matrix = initmarix(rows);
+                if(matrix == NULL){
+                printf("nem sikerült a mátrix generálása próbáld ujra");
+                }
                 }
                 break;
             case 3:
-              
+              //mátrix beolvasás
                 break;
             case 4:
                 //aktuális mátrix kirajzolása
-
                 if(matrix == NULL){
                     printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
                 }else{
-                    printMatrix(matrix,rows,cols);
+                    printMatrix(matrix,rows);
                 }
-
                 break;
             case 5:
-                //mátrix fileba irás
+                //mátrix kiirása fileba
+              //  writeMatrix(matrix,rows,rotation,irany);
                 break;
             
             case 6:
@@ -128,7 +125,7 @@ void userManual(void)
     printf("1 - User Manual\n");
     printf("Jelenleg ezt az oopciót választottad,Ez egy leírás a program működéséről\n");
 
-    printf("2 - generate matrix:\n");
+    printf("2 - Generate matrix:\n");
     printf(" Ez a választás lehetőséget ad arra hogy legenráltass a programmal egy mátrixot \n");
     printf(" 3 paramétert fog kérni a program: mekkora legyen a mártix mérete N X M \n");
     printf("                                   melyik irányba induljon el a feltöltés(Jobb,bal,fel,le)\n");               
@@ -150,18 +147,15 @@ void userManual(void)
 }
 
 
-int **initmarix(int rows, int cols) {
+int **initmarix(int rows) {
     int **matrix = (int **)malloc(rows * sizeof(int *));
     if (matrix == NULL) {
-        // Handle memory allocation failure
         return NULL;
     }
 
     for (int i = 0; i < rows; ++i) {
-        matrix[i] = (int *)malloc(cols * sizeof(int));
+        matrix[i] = (int *)malloc(rows * sizeof(int));
         if (matrix[i] == NULL) {
-            // Handle memory allocation failure
-            // Cleanup allocated memory before returning
             for (int j = 0; j < i; ++j) {
                 free(matrix[j]);
             }
@@ -173,7 +167,7 @@ int **initmarix(int rows, int cols) {
     // Initialize the matrix (you can customize this part)
     int count = 1;
     for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
+        for (int j = 0; j < rows; ++j) {
             matrix[i][j] = count++;
         }
     }
@@ -189,11 +183,11 @@ void freematrix(int **pt,int rows){
 }
 
 
-void printMatrix(int **matrix,int rows,int cols){
+void printMatrix(int **matrix,int rows){
 
     printf("A mentett mátrix:\n");
     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+        for (int j = 0; j < rows; j++) {
             printf("%2d ", matrix[i][j]);
         }
             printf("\n");
@@ -201,4 +195,3 @@ void printMatrix(int **matrix,int rows,int cols){
 
 
 }
-readfromfile(int **matrix,int rows,int cols,char *filename);
