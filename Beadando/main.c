@@ -5,7 +5,7 @@
 
 void displayMenu(void);
 void userManual(void);
-int * initmarix(int rows,int cols);
+int **initmarix(int rows,int cols);
 void freematrix(int **pt,int rows);
 
 
@@ -59,7 +59,7 @@ int main(int *argc, char *argv){
                 else{
 
                 freematrix(matrix,rows);
-                
+
                 do{
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
