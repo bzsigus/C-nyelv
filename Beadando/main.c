@@ -5,6 +5,8 @@
 
 void displayMenu(void);
 void userManual(void);
+int * initmarix(int rows,int cols);
+void freematrix(int **pt,int rows);
 
 
 int main(int *argc, char *argv){
@@ -13,7 +15,8 @@ int main(int *argc, char *argv){
     char rotation[3];
     char irany[4]; 
     int rows, cols;
-     int **matrix = NULL;
+    int **matrix = NULL;
+    int beforerow,afterrow;
     do {
 
         displayMenu();
@@ -24,19 +27,43 @@ int main(int *argc, char *argv){
                 userManual();
                 break;
             case 2:
-                if(matrix != NULL)
+            //hanincsmegmatrix
+                if (matrix == NULL)
                 {
-                     for (int i = 0; i < rows; ++i) {
-                            free(matrix[i]);
-                        }
-                        free(matrix);
-                }
-
                 do{
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
                 }while(rows < 1 || rows > 20);
+                do {
+                printf("Add meg a mátrix oszlopainak számát (1 és 20 között):");
+                scanf("%d", &cols);
+                }while(cols < 1 || cols > 20);
+                do{
+                printf("Add meg hogy merre induljon el (jobb,bal,fel,le): ");
+                scanf("%s", irany);
+                getchar();
+                }while(strcmp(irany,"jobb") != 0 && strcmp(irany, "bal") != 0 && strcmp(irany,"fel") != 0 && strcmp(irany,"le") != 0);
+                do {
+                printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
+                scanf("%s", rotation);
                 
+                getchar();
+                } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
+
+                matrix = initMatrix(rows,cols);
+                }
+
+
+
+                
+                else{
+
+                freematrix(matrix,rows);
+                
+                do{
+                printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
+                scanf("%d", &rows);
+                }while(rows < 1 || rows > 20);
                 do {
                 printf("Add meg a mátrix oszlopainak számát (1 és 20 között):");
                 scanf("%d", &cols);
@@ -54,27 +81,9 @@ int main(int *argc, char *argv){
                 // Consume the newline character from the previous input
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
-
-
-                    // Mátrix inicializálása a heap-en
-                    matrix = (int **)malloc(rows * sizeof(int *));
-                    for (int i = 0; i < rows; ++i) {
-                        matrix[i] = (int *)malloc(cols * sizeof(int));
-                    }
-
-                int c = 0;
-                for (int i = 0; i < rows; i++)
-                {
-                    for (int j = 0; j < cols; j++)
-                    {
-                        matrix[i][j] = c++;
-                    }
-                    
+                matrix = initMatrix(rows,cols);
                 }
-                
-
-
-
+                    
                 
                 printf("A mentett mátrix:\n");
                 for (int i = 0; i < rows; i++) {
@@ -148,4 +157,45 @@ void userManual(void)
 
 }
 
+
+int **initMatrix(int rows, int cols) {
+    // Allocate memory for the matrix
+    int **matrix = (int **)malloc(rows * sizeof(int *));
+    if (matrix == NULL) {
+        // Handle memory allocation failure
+        return NULL;
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        matrix[i] = (int *)malloc(cols * sizeof(int));
+        if (matrix[i] == NULL) {
+            // Handle memory allocation failure
+            // Free previously allocated memory
+            for (int j = 0; j < i; ++j) {
+                free(matrix[j]);
+            }
+            free(matrix);
+            return NULL;
+        }
+    }
+
+    // Initialize the matrix (you can customize this part)
+    int count = 1;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = count++;
+        }
+    }
+
+    return matrix;
+}
+
+void freematrix(int **pt,int rows){
+        
+        
+        for (int i = 0; i < rows; ++i) {
+            free(pt[i]);
+        }
+        free(pt);
+}
 
