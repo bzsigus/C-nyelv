@@ -7,6 +7,7 @@ void displayMenu(void);
 void userManual(void);
 int **initmarix(int rows,int cols);
 void freematrix(int **pt,int rows);
+void printMatrix(int **matrix,int rows,int cols);
 
 
 int main(int *argc, char *argv){
@@ -17,6 +18,7 @@ int main(int *argc, char *argv){
     int rows, cols;
     int **matrix = NULL;
     int beforerow,afterrow;
+    char filename[];
     do {
 
         displayMenu();
@@ -78,28 +80,25 @@ int main(int *argc, char *argv){
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
                 matrix = initmarix(rows,cols);
                 }
-                    
-                
-                printf("A mentett mátrix:\n");
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        printf("%2d ", matrix[i][j]);
-                    }
-                    printf("\n");
-                }
-
-                
-
                 break;
             case 3:
-                printf("You selected Option 3.\n");
-                // Add your code for Option 3 here
+                if (matrix == NULL){
+                    
+                }
+                
                 break;
             case 4:
-                printf("Option 4.\n");
+                //aktuális mátrix kirajzolása
+
+                if(matrix == NULL){
+                    printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
+                }else{
+                    printMatrix(matrix,rows,cols);
+                }
+
                 break;
             case 5:
-                
+                //mátrix fileba irás
                 break;
             
             case 6:
@@ -121,9 +120,9 @@ void displayMenu(void) {
     printf("   Your Options:\n");
     printf("    \033[0;32m 1 - User Manual\n");
     printf("     2 - Generate matrix\n");
-    printf("     3 - Load Mátrix:\n");
-    printf("     4 - Save Matrix:\n");
-    printf("     5 - Print Matrix\n");
+    printf("     3 - Load Mátrix\n");
+    printf("     4 - Print Matrix\n");
+    printf("     5 - Save Matrix\n");
     printf("     6 - Exit\n\033[0m");
 }
 void userManual(void)
@@ -142,11 +141,12 @@ void userManual(void)
     printf("3 - Load Mátrix:\n");
     printf(" Ez a választás lehetőséget ad arra hogy egy választott filebol betöltsünk a programnak egy Mátrixot\n");
                 
-    printf("4 - Save Mátrix:\n");
-    printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot egy file-ba kiirjuk\n");
-
-    printf("5 - Print Matrix:\n");
+    
+    printf("4 - Print Matrix:\n");
     printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot Kiirjuk a képernyőre\n");
+
+    printf("5 - Save Mátrix:\n");
+    printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot egy file-ba kiirjuk\n");
 
     printf(" 6 - exit\n");
     printf("Kilépés a programobol\n");
@@ -185,9 +185,6 @@ int **initmarix(int rows, int cols) {
     return matrix;
 }
 
-
-
-
 void freematrix(int **pt,int rows){
         for (int i = 0; i < rows; i++) {
             free(pt[i]);
@@ -195,3 +192,17 @@ void freematrix(int **pt,int rows){
         free(pt);
 }
 
+
+void printMatrix(int **matrix,int rows,int cols){
+
+    printf("A mentett mátrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%2d ", matrix[i][j]);
+        }
+            printf("\n");
+        }
+
+
+}
+readfromfile(int **matrix,int rows,int cols,char *filename);
