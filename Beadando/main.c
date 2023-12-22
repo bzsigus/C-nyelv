@@ -55,7 +55,7 @@ int main(int *argc, char *argv){
                 matrix = initmarix(rows,cols);
                 }
                 else{
-                
+
                 freematrix(matrix,rows);
                 do{
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
@@ -75,17 +75,13 @@ int main(int *argc, char *argv){
                 do {
                 printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
                 scanf("%s", rotation);
-                // Consume the newline character from the previous input
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
                 matrix = initmarix(rows,cols);
                 }
                 break;
             case 3:
-                if (matrix == NULL){
-                    
-                }
-                
+              
                 break;
             case 4:
                 //aktuális mátrix kirajzolása
