@@ -5,7 +5,7 @@
 
 void displayMenu(void);
 void userManual(void);
-int * initmarix(int rows,int cols);
+int **initmarix(int rows,int cols);
 void freematrix(int **pt,int rows);
 
 
