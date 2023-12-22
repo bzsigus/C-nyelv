@@ -50,16 +50,11 @@ int main(int *argc, char *argv){
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
 
-                matrix = initMatrix(rows,cols);
+                matrix = initmarix(rows,cols);
                 }
-
-
-
-                
                 else{
-
+                
                 freematrix(matrix,rows);
-
                 do{
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
@@ -81,7 +76,7 @@ int main(int *argc, char *argv){
                 // Consume the newline character from the previous input
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
-                matrix = initMatrix(rows,cols);
+                matrix = initmarix(rows,cols);
                 }
                     
                 
@@ -108,6 +103,7 @@ int main(int *argc, char *argv){
                 break;
             
             case 6:
+                 freematrix(matrix,rows);
                 return 0;
             default:
                 printf("Invalid choice. Please enter a valid option.\n");
@@ -158,8 +154,7 @@ void userManual(void)
 }
 
 
-int **initMatrix(int rows, int cols) {
-    // Allocate memory for the matrix
+int **initmarix(int rows, int cols) {
     int **matrix = (int **)malloc(rows * sizeof(int *));
     if (matrix == NULL) {
         // Handle memory allocation failure
@@ -170,7 +165,7 @@ int **initMatrix(int rows, int cols) {
         matrix[i] = (int *)malloc(cols * sizeof(int));
         if (matrix[i] == NULL) {
             // Handle memory allocation failure
-            // Free previously allocated memory
+            // Cleanup allocated memory before returning
             for (int j = 0; j < i; ++j) {
                 free(matrix[j]);
             }
@@ -190,10 +185,11 @@ int **initMatrix(int rows, int cols) {
     return matrix;
 }
 
+
+
+
 void freematrix(int **pt,int rows){
-        
-        
-        for (int i = 0; i < rows; ++i) {
+        for (int i = 0; i < rows; i++) {
             free(pt[i]);
         }
         free(pt);
