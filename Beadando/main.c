@@ -9,14 +9,14 @@
 int main(int *argc, char *argv[]){
 
     int menupont;
+    int rows;
     char rotation[3];
     char irany[4]; 
-    int rows;
-    bool olvasottfile = false;
-  
-    int **matrix = NULL;
     char nev[100];
-    int rowcount;
+    bool olvasottfile = false;
+    int **matrix = NULL;
+    
+    
     do {
         //menu kiirasa
         displayMenu();
@@ -26,7 +26,7 @@ int main(int *argc, char *argv[]){
         switch (menupont) {
             case 1:
                     userManual();
-                    break;
+            break;
             //hanincsmegmatrix
             case 2:
             
@@ -85,68 +85,60 @@ int main(int *argc, char *argv[]){
                         }
                     }
                      olvasottfile = false;
-                break;
-              //mátrix beolvasás
-            case 3:
+             break;
             
-                if(matrix == NULL)
-                {
-                
-                    printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
-                    scanf("%s", nev);
-                    getchar();
-                    matrix = readMatrix(nev);
-                    rows = countrows(nev);
-                   
-                }
-                else{
-                    freematrix(matrix,rows);
-                    printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
-                    scanf("%s", nev);
-                    getchar();
-                    matrix = readMatrix(nev);
-                    rows = countrows(nev);
-                   
-                }
-                olvasottfile = true;
-                break;
-
-
-
-
+            //mátrix beolvasás
+            case 3:
+                    if(matrix == NULL)
+                    {
+                        printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
+                        scanf("%s", nev);
+                        getchar();
+                        matrix = readMatrix(nev);
+                        rows = countrows(nev);  
+                    }
+                    else{
+                        freematrix(matrix,rows);
+                        printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
+                        scanf("%s", nev);
+                        getchar();
+                        matrix = readMatrix(nev);
+                        rows = countrows(nev);
+                    
+                    }
+                    olvasottfile = true;
+            break;
 
             //aktuális mátrix kirajzolása
             case 4:
                 
-                if(matrix == NULL){
-                    printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
-                }else{
-                    printMatrix(matrix,rows);
-                }
-                break;
+                    if(matrix == NULL){
+                        printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
+                    }else{
+                        printMatrix(matrix,rows);
+                    }
+             break;
 
              //mátrix kiirása fileba
             case 5:
             
-                if(matrix == NULL)
-                {
-                    printf("Nincs jelenleg mentett mátrix nem tudom kiirni");
-                }
-                else{
-                   
-                writeMatrix(matrix,rows,rotation,irany,olvasottfile);
-                }
-                
-                break;
+                    if(matrix == NULL)
+                    {
+                        printf("Nincs jelenleg mentett mátrix nem tudom kiirni");
+                    }
+                    else{
+                    
+                    writeMatrix(matrix,rows,rotation,irany,olvasottfile);
+                    }
+                    
+             break;
             
             //kilép a programbol
             case 6:
-                 freematrix(matrix,rows);
-              
-                 printf("Köszönöm hogy használtad a programom,Visszavárunk!\n");
-                return 0;
-
-
+                    freematrix(matrix,rows);
+                
+                    printf("Köszönöm hogy használtad a programom,Visszavárunk!\n");
+                    return 0;
             default:
                     fprintf(stderr, "\033[1;31m");
                     fprintf(stderr, "Nincs ilyen opció, kérlek válassz az opciók közül\n");
