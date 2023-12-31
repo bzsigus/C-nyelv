@@ -7,11 +7,11 @@
 
 void displayMenu(void);
 void userManual(void);
-int **initmarix(int rows);
-void freematrix(int **pt,int rows);
-void printMatrix(int **matrix,int rows);
-int **readMatrix(char fnev[100]);
-int rowcountwhenread(void);
+int **initmarix(int rows,char rotation[3], char irany[4]);
+void freematrix(int **pt,int *rows);
+void printMatrix(int **matrix,int *rows);
+int **readMatrix(char fnev[100],int *prows);
+
 
 int main(int *argc, char *argv){
 
@@ -19,6 +19,12 @@ int main(int *argc, char *argv){
     char rotation[3];
     char irany[4]; 
     int rows;
+    int *prows = (int*)malloc(sizeof(int));
+    if (prows == NULL) {
+        fprintf(stderr, "Nem sikerült memóriát foglalni.\n");
+        return 1;
+    }
+    *prows = rows;
     int **matrix = NULL;
     char nev[100];
     int rowcount;
@@ -31,6 +37,11 @@ int main(int *argc, char *argv){
             case 1:
                 userManual();
                 break;
+
+
+
+
+
             case 2:
             //hanincsmegmatrix
                 if (matrix == NULL)
@@ -39,6 +50,7 @@ int main(int *argc, char *argv){
                 printf("Add meg hogy mekkora legyen a mátrux NxN (1 és 20 között): ");
                 scanf("%d", &rows);
                 }while(rows < 1 || rows > 20);
+                *prows = rows;
                 do{
                 printf("Add meg hogy merre induljon el (jobb,bal,fel,le): ");
                 scanf("%s", irany);
@@ -50,7 +62,7 @@ int main(int *argc, char *argv){
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
 
-                matrix = initmarix(rows);
+                matrix = initmarix(rows,rotation,irany);
 
                 if(matrix == NULL){
                 fprintf(stderr, "\033[1;31m\n");
@@ -60,7 +72,7 @@ int main(int *argc, char *argv){
                 }
                 else{
 
-                freematrix(matrix,rows);
+                freematrix(matrix,prows);
                 do{
                 printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
                 scanf("%d", &rows);
@@ -76,7 +88,7 @@ int main(int *argc, char *argv){
                 scanf("%s", rotation);
                 getchar();
                 } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
-                matrix = initmarix(rows);
+                matrix = initmarix(rows,rotation,irany);
                 if(matrix == NULL){
                 fprintf(stderr, "\033[1;31m\n");
                 fprintf(stderr, "Nem sikerült a mátrix generálása, próbáld újra\n");
@@ -84,31 +96,47 @@ int main(int *argc, char *argv){
                 }
                 }
                 break;
+
+
+
+
+
             case 3:
               //mátrix beolvasás
                 if(matrix == NULL)
                 {
+                    *prows = 0;
                     printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
                     scanf("%s", nev);
                     getchar();
-                    matrix = readMatrix(nev);
+                    matrix = readMatrix(nev,prows);
                 }
                 else{
-                    freematrix(matrix,rows);
+                    freematrix(matrix,prows);
                     printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
                     scanf("%s", nev);
                     getchar();
-                    matrix = readMatrix(nev);
+                    matrix = readMatrix(nev,prows);
                 }
                 break;
+
+
+
+
+
+
             case 4:
                 //aktuális mátrix kirajzolása
                 if(matrix == NULL){
                     printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
                 }else{
-                    printMatrix(matrix,rows);
+                    printMatrix(matrix,prows);
                 }
                 break;
+
+
+
+
             case 5:
             //kész áthelyezve a filejába
             /*
@@ -125,7 +153,9 @@ int main(int *argc, char *argv){
             
             case 6:
             //kilép a programbol
-                 freematrix(matrix,rows);
+                
+                 freematrix(matrix,prows);
+                 free(prows);
                  printf("Köszönöm hogy használtad a programom,Visszavárunk!\n");
                 return 0;
             default:
@@ -180,7 +210,8 @@ void userManual(void)
 }
 
 
-int **initmarix(int rows) {
+int **initmarix(int rows,char rotation[3], char irany[4])
+{
     int **matrix = (int **)malloc(rows * sizeof(int *));
     if (matrix == NULL) {
         return NULL;
@@ -198,30 +229,145 @@ int **initmarix(int rows) {
     }
 
     // Initialize the matrix (you can customize this part)
-    int count = 1;
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < rows; ++j) {
-            matrix[i][j] = count++;
+    int dir = 0;
+    int cwOrccw = 0;
+    int n = rows;
+    int num = rows * rows;
+    int mid = n / 2;
+    //jobb = 0;bal= 1;fel = 2;le=3;
+    if(strcmp(irany,"jobb") == 0){
+        dir= 0;
+    }
+    else if(strcmp(irany,"bal")== 0){
+        dir= 1;
+
+    }
+     else if(strcmp(irany,"fel")== 0){
+                dir =2;
+
+    }
+     else if(strcmp(irany,"le")== 0){
+                dir =3;
+
+    }
+    //cw = 1;ccw = 2;
+    if(strcmp(rotation,"cw")== 0){
+        cwOrccw = 1;
+    }else if (strcmp(rotation,"ccw")== 0){
+        cwOrccw = 2;
+    }
+
+
+    //cw rot
+    if(cwOrccw == 1){
+        switch(dir){
+            //jobb
+            case 0:
+          
+
+
+            break;
+            //bal
+            case 1:
+           
+            break;
+             //fel
+            case 2:
+         
+            for (int layer = 0; layer < (n + 1) / 2; ++layer) {
+                // Down
+                for (int i = layer; i < n - layer; ++i)
+                    matrix[i][layer] = num--;
+
+                // Right
+                for (int i = layer + 1; i < n - layer; ++i)
+                    matrix[n - 1 - layer][i] = num--;
+
+                // Up
+                for (int i = n - 2 - layer; i >= layer; --i)
+                    matrix[i][n - 1 - layer] = num--;
+
+                // Left
+                for (int i = n - 2 - layer; i > layer; --i)
+                    matrix[layer][i] = num--;
+                }
+
+
+            break;
+             //le
+           
+        
+            break;
+        
+        }
+    
+    }
+    //ccw rot
+    else if(cwOrccw == 2){
+    switch(dir){
+            //jobb
+            case 0:
+
+            break;
+
+
+
+
+
+            //bal
+            case 1:
+            break;
+
+             //fel
+            case 2:
+                for (int layer = 0; layer < (n + 1) / 2; ++layer) {
+                    // Down
+                    for (int i = layer; i < n - layer; ++i)
+                        matrix[i][layer] = num++;
+
+                    // Right
+                    for (int i = layer + 1; i < n - layer; ++i)
+                        matrix[n - 1 - layer][i] = num++;
+
+                    // Up
+                    for (int i = n - 2 - layer; i >= layer; --i)
+                        matrix[i][n - 1 - layer] = num++;
+
+                    // Left
+                    for (int i = n - 2 - layer; i > layer; --i)
+                        matrix[layer][i] = num++;
+                }
+
+
+            break;
+
+
+
+             //le
+            case 3:
+            break;
         }
     }
+
+ 
 
     return matrix;
 }
 
-void freematrix(int **pt,int rows){
-        for (int i = 0; i < rows; i++) {
+void freematrix(int **pt,int *rows){
+        for (int i = 0; i < *rows; i++) {
             free(pt[i]);
         }
         free(pt);
 }
 
 
-void printMatrix(int **matrix,int rows){
+void printMatrix(int **matrix,int *rows){
 
     printf("A mentett mátrix:\n");
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < rows; j++) {
-            printf("%2d ", matrix[i][j]);
+    for (int i = 0; i < *rows; i++) {
+        for (int j = 0; j < *rows; j++) {
+            printf("%5d ", matrix[i][j]);
         }
             printf("\n");
         }
@@ -229,7 +375,7 @@ void printMatrix(int **matrix,int rows){
 }
 
 
-int **readMatrix(char fnev[100]){
+int **readMatrix(char fnev[100],int *prows ){
 
  FILE* file = fopen(fnev, "r");
     if (!file) {
@@ -271,7 +417,6 @@ int **readMatrix(char fnev[100]){
 
     // Fájl bezárása
     fclose(file);
-
 
 
         return matrix;
