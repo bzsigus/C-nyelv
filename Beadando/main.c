@@ -15,6 +15,8 @@ int main(int *argc, char *argv[]){
     char nev[100];
     bool olvasottfile = false;
     int **matrix = NULL;
+    int jbfl;
+    int rot;
     
     
     do {
@@ -42,13 +44,35 @@ int main(int *argc, char *argv[]){
                         scanf("%s", irany);
                         getchar();
                         }while(strcmp(irany,"jobb") != 0 && strcmp(irany, "bal") != 0 && strcmp(irany,"fel") != 0 && strcmp(irany,"le") != 0);
+                       
+                         /jobb = 0;bal= 1;fel = 2;le=3;
+                        if(strcmp(irany,"jobb") == 0){
+                            jbfl= 0;
+                        }
+                        if(strcmp(irany,"bal")==0){
+                            jbfl= 1;
+                        }
+                        if(strcmp(irany,"fel")== 0){
+                            jbfl=2;
+                        }
+                        if(strcmp(irany,"le")== 0){
+                            jbfl =3;
+                        }
+
                         do {
                         printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
                         scanf("%s", rotation);
                         getchar();
                         } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
+                       
+                        if(strcmp(rotation, "cw") == 0){
+                            rot = 1;
+                        }
+                        else{
+                            rot = 2;
+                        }
 
-                    matrix = initmarix(rows,rotation,irany);
+                        matrix = initmarix(rows,rot,jbfl);
 
                     if(matrix == NULL){
                         fprintf(stderr, "\033[1;31m\n");
@@ -57,7 +81,7 @@ int main(int *argc, char *argv[]){
                     }
                     }else{
 
-                    freematrix(matrix,rows);
+                        freematrix(matrix,rows);
 
                         do{
                         printf("Add meg a mátrix sorainak számét (1 és 20 között): ");
@@ -69,13 +93,32 @@ int main(int *argc, char *argv[]){
                         scanf("%s", irany);
                         getchar();
                         }while(strcmp(irany,"jobb") != 0 && strcmp(irany, "bal") != 0 && strcmp(irany,"fel") != 0 && strcmp(irany,"le") != 0);
-                    
+                        //jobb = 0;bal= 1;fel = 2;le=3;
+                        if(strcmp(irany,"jobb") == 0){
+                            jbfl= 0;
+                        }
+                        if(strcmp(irany,"bal")==0){
+                            jbfl= 1;
+                        }
+                        if(strcmp(irany,"fel")== 0){
+                            jbfl=2;
+                        }
+                        if(strcmp(irany,"le")== 0){
+                            jbfl =3;
+                        }
+
                         do {
                         printf("Merre szeretnéd, hogy a feltöltés induljon?(cw,ccw): ");
                         scanf("%s", rotation);
                         getchar();
                         } while (strcmp(rotation, "cw") != 0 && strcmp(rotation, "ccw") != 0);
-                    matrix = initmarix(rows,rotation,irany);
+                        if(strcmp(rotation, "cw") == 0){
+                            rot = 1;
+                        }
+                        else{
+                            rot = 2;
+                        }
+                        matrix = initmarix(rows,rot,jbfl);
                    
 
                     if(matrix == NULL){

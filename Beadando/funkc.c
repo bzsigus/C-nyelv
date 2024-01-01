@@ -63,7 +63,7 @@ void printMatrix(int **matrix,int rows){
         }
 
 }
-int **initmarix(int rows,char rotation[3], char irany[4])
+int **initmarix(int rows,int rot,int jbfl)
 {
     int **matrix = (int **)malloc(rows * sizeof(int *));
     if (matrix == NULL) {
@@ -81,201 +81,253 @@ int **initmarix(int rows,char rotation[3], char irany[4])
         }
     }
 
-    // Initialize the matrix (you can customize this part)
-    int dir = 0;
-    int cwOrccw = 0;
+    int dir;
+    int cwOrccw =1;
     int n = rows;
-    int num = rows * rows;
-    int mid = n / 2;
-    //jobb = 0;bal= 1;fel = 2;le=3;
-    if(strcmp(irany,"jobb") == 0){
-        dir= 0;
-    }
-    else if(strcmp(irany,"bal")== 0){
-        dir= 1;
+    int stepcount = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+                matrix[i][j] = 0;
+             }
+         }
+    int x = n/2;
+    int y = n/2;
+    int end = (n - x);
+    int N = (n*n)+1;
+    matrix[x][y] = 1;
+    int szam = 2;
 
-    }
-     else if(strcmp(irany,"fel")== 0){
-                dir =2;
-
-    }
-     else if(strcmp(irany,"le")== 0){
-                dir =3;
-
-    }
-    //cw = 1;ccw = 2;
-    if(strcmp(rotation,"cw")== 0){
-        cwOrccw = 1;
-    }else if (strcmp(rotation,"ccw")== 0){
-        cwOrccw = 2;
-    }
-
-
-    //cw rot
-    if(cwOrccw == 1){
-        switch(dir){
+    if(rot == 1){
+        switch(jbfl){
             //jobb
             case 0:
-                    int stepcount = 1;
-                    for (int i = 0; i < n; i++) {
-                            for (int j = 0; j < n; j++) {
-                                matrix[i][j] = 0;
-                            }
-                        }
-                    int x = n/2;
-                    int y = n/2;
-                    int end = (n - x);
-                    int N = (n*n)+1;
-                    matrix[x][y] = 1;
-                    int szam = 2;
-                        while(szam <= n*n){  
-                            // jobb
-                            for (int j = 0; j < stepcount && szam < N; j++) {
-                                y++;
-                                matrix[x][y] = szam;
-                                szam++;
-                            
-                            }
-                            //fel
-                            for (int j = 0; j < stepcount && szam < N; j++) {
-                                x--;
-                                matrix[x][y] = szam;
-                                
-                                szam++;
-                            }
-                            stepcount++;
+                    while(szam <= n*n){  
+                    // jobb
+                    for (int j = 0; j < stepcount && szam < N; j++) {
+                        y++;
+                        matrix[x][y] = szam++;
+                     }
+                    //le
+                    for (int j = 0; j < stepcount && szam < N; j++) {
+                        x++;
+                        matrix[x][y] = szam++;   
+                    }
+                    stepcount++;
+                     //bal
+                    for (int j = 0; j < stepcount && szam < N; j++) {
+                        y--;
+                        matrix[x][y] = szam++;  
+                    }
+                    //fel
+                      for (int j = 0; j < stepcount && szam < N; j++) {
+                        x--;
+                        matrix[x][y] = szam++;
+                       }
+                    stepcount++;   
+                    }
+                
+            break;
+            //bal
+            case 1:
+                    while(szam <= n*n){  
                             //bal
                             for (int j = 0; j < stepcount && szam < N; j++) {
                                 y--;
                                 matrix[x][y] = szam++;
                             
                             }
+                             //fel
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                x--;
+                                matrix[x][y] = szam++; 
+                            }
+                            
+                            stepcount++;
+                            //jobb
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                y++;
+                                matrix[x][y] = szam++;
+                            }
                             //le
                             for (int j = 0; j < stepcount && szam < N; j++) {
                                 x++;
-                                matrix[x][y] = szam++;   
+                                matrix[x][y] = szam++;
                             }
-                            stepcount++;   
+                            stepcount++;
                     }
-                
-            break;
-            //bal
-            case 1:
-
-                        num = rows * rows;
-                    for (int layer = 0; layer < (n + 1) / 2; ++layer) {
-                        // Right
-                        for (int i = layer; i < n - layer; ++i)
-                            matrix[layer][i] = num--;
-
-                        // Down
-                        for (int i = layer + 1; i < n - layer; ++i)
-                            matrix[i][n - 1 - layer] = num--;
-
-                        // Left
-                        for (int i = n - 2 - layer; i >= layer; --i)
-                            matrix[n - 1 - layer][i] = num--;
-
-                        // Up
-                        for (int i = n - 2 - layer; i > layer; --i)
-                            matrix[i][layer] = num--;
-                        }
-
             break;
              //fel
             case 2:
-         
-                    for (int layer = 0; layer < (n + 1) / 2; ++layer) {
-                        // Down
-                        for (int i = layer; i < n - layer; ++i)
-                            matrix[i][layer] = num--;
-
-                        // Right
-                        for (int i = layer + 1; i < n - layer; ++i)
-                            matrix[n - 1 - layer][i] = num--;
-
-                        // Up
-                        for (int i = n - 2 - layer; i >= layer; --i)
-                            matrix[i][n - 1 - layer] = num--;
-
-                        // Left
-                        for (int i = n - 2 - layer; i > layer; --i)
-                            matrix[layer][i] = num--;
-                        }
-
-
+					while(szam <= n*n){  
+					 //fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					}
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					}
+					 stepcount++;
+					//le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;     
+					}
+					//bal 
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					   
+					}
+					stepcount++;
+					}
             break;
              //le
-           
-        
-            break;
-        
+			case 3:
+					while(szam <= n*n){  
+					//le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;     
+					}
+					 //bal 
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					}
+					 stepcount++;
+					 //fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					}
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					}
+					stepcount++;
+					}
+			break;
         }
-    
-    }
-    //ccw rot
-    else if(cwOrccw == 2){
-    switch(dir){
+    }else
+    {   
+     switch(jbfl){
             //jobb
             case 0:
-
+            
+					while(szam <= n*n){  
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					} 
+                    //fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					  
+					}
+					stepcount++;
+					//bal
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					   
+					}
+                    //le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;     
+					}
+					stepcount++;
+			}
             break;
-
-
             //bal
             case 1:
-                 for (int layer = 0; layer < (n + 1) / 2; ++layer) {
-                // Up
-                for (int i = n - 1 - layer; i >= layer; --i)
-                    matrix[i][layer] = num--;
-
-                // Left
-                for (int i = layer + 1; i < n - layer; ++i)
-                    matrix[layer][i] = num--;
-
-                // Down
-                for (int i = layer + 1; i < n - layer; ++i)
-                    matrix[i][n - 1 - layer] = num--;
-
-                // Right
-                for (int i = n - 2 - layer; i > layer; --i)
-                    matrix[n - 1 - layer][i] = num--;
-            }
-
-            break;
-
-             //fel
+                
+					while(szam <= n*n){  
+					//bal
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					}
+					//le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;
+					}
+					stepcount++;
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					}
+					//fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					}
+					stepcount++;
+					}
+			break;
+            //fel
             case 2:
-                for (int layer = 0; layer < (n + 1) / 2; ++layer) {
-                    // Down
-                    for (int i = layer; i < n - layer; ++i)
-                        matrix[i][layer] = num++;
-
-                    // Right
-                    for (int i = layer + 1; i < n - layer; ++i)
-                        matrix[n - 1 - layer][i] = num++;
-
-                    // Up
-                    for (int i = n - 2 - layer; i >= layer; --i)
-                        matrix[i][n - 1 - layer] = num++;
-
-                    // Left
-                    for (int i = n - 2 - layer; i > layer; --i)
-                        matrix[layer][i] = num++;
-                }
-
-
+                while(szam <= n*n){  
+					 //fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					}
+					//bal 
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					}
+					stepcount++;
+                    //le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;     
+					}
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					}
+					 stepcount++;
+					}
             break;
-
-
-
-             //le
+            //le
             case 3:
+			while(szam <= n*n){  
+					//le
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x++;
+						matrix[x][y] = szam++;     
+					}
+					//jobb
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						y++;
+						matrix[x][y] = szam++;
+					}
+					 stepcount++;
+					 //fel
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						x--;
+						matrix[x][y] = szam++;
+					}
+					//bal 
+					for (int j = 0; j < stepcount && szam < N; j++) {
+						 y--;
+						matrix[x][y] = szam++;
+					}
+					stepcount++;
+					}
             break;
         }
     }
-
- 
-
     return matrix;
 }
