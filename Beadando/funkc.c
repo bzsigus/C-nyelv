@@ -116,6 +116,47 @@ int **initmarix(int rows,char rotation[3], char irany[4])
         switch(dir){
             //jobb
             case 0:
+                    int stepcount = 1;
+                    for (int i = 0; i < n; i++) {
+                            for (int j = 0; j < n; j++) {
+                                matrix[i][j] = 0;
+                            }
+                        }
+                    int x = n/2;
+                    int y = n/2;
+                    int end = (n - x);
+                    int N = (n*n)+1;
+                    matrix[x][y] = 1;
+                    int szam = 2;
+                        while(szam <= n*n){  
+                            // jobb
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                y++;
+                                matrix[x][y] = szam;
+                                szam++;
+                            
+                            }
+                            //fel
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                x--;
+                                matrix[x][y] = szam;
+                                
+                                szam++;
+                            }
+                            stepcount++;
+                            //bal
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                y--;
+                                matrix[x][y] = szam++;
+                            
+                            }
+                            //le
+                            for (int j = 0; j < stepcount && szam < N; j++) {
+                                x++;
+                                matrix[x][y] = szam++;   
+                            }
+                            stepcount++;   
+                    }
                 
             break;
             //bal
