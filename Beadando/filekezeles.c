@@ -79,7 +79,7 @@ int **readMatrix(char fnev[100]) {
 
    FILE *op = fopen(fnev, "r");
       if (op == NULL) {
-        printf("A fájl nem nyitható meg.");
+        printf("A fájl nem nyitható meg.\n");
         return NULL;
       }
 
@@ -116,10 +116,6 @@ int **readMatrix(char fnev[100]) {
 
 int countrows(char fnev[100]){
   FILE *fp = fopen(fnev, "r");
-  if (fp == NULL) {
-    printf("A fájl nem nyitható meg.");
-    return 0;
-  }
   int sor = 1;
   int oszlop = 1;
   char c;

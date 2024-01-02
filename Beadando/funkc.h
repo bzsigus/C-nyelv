@@ -5,6 +5,8 @@
 void displayMenu(void);
 void userManual(void);
 int **initmarix(int rows,int rot,int jbfl);
+void clearscreen(void);
 void freematrix(int **pt,int rows);
 void printMatrix(int **matrix,int rows);
+
 #endif

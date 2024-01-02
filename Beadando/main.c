@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "funkc.h"
 #include "filekezeles.h"
 
@@ -17,8 +18,6 @@ int main(int *argc, char *argv[]){
     int **matrix = NULL;
     int jbfl;
     int rot;
-    
-    
     do {
         //menu kiirasa
         displayMenu();
@@ -27,10 +26,14 @@ int main(int *argc, char *argv[]){
         //menu csinal valamit
         switch (menupont) {
             case 1:
+                    clearscreen();
                     userManual();
             break;
+            case 2: 
+            clearscreen();
+            break;
             //hanincsmegmatrix
-            case 2:
+            case 3:
             
                     if (matrix == NULL)
                     {
@@ -45,7 +48,7 @@ int main(int *argc, char *argv[]){
                         getchar();
                         }while(strcmp(irany,"jobb") != 0 && strcmp(irany, "bal") != 0 && strcmp(irany,"fel") != 0 && strcmp(irany,"le") != 0);
                        
-                         /jobb = 0;bal= 1;fel = 2;le=3;
+                        //jobb = 0;bal= 1;fel = 2;le=3;
                         if(strcmp(irany,"jobb") == 0){
                             jbfl= 0;
                         }
@@ -73,6 +76,7 @@ int main(int *argc, char *argv[]){
                         }
 
                         matrix = initmarix(rows,rot,jbfl);
+                        clearscreen();
 
                     if(matrix == NULL){
                         fprintf(stderr, "\033[1;31m\n");
@@ -128,10 +132,11 @@ int main(int *argc, char *argv[]){
                         }
                     }
                      olvasottfile = false;
+                     clearscreen();
              break;
             
             //mátrix beolvasás
-            case 3:
+            case 4:
                     if(matrix == NULL)
                     {
                         printf("Add meg a file nevét (kiterjesztésssel eggyütt): ");
@@ -153,18 +158,18 @@ int main(int *argc, char *argv[]){
             break;
 
             //aktuális mátrix kirajzolása
-            case 4:
-                
+            case 5:
+                     clearscreen();
                     if(matrix == NULL){
                         printf("Kérlek generálj egy mátrixot vagy tölts be egyet");
                     }else{
                         printMatrix(matrix,rows);
                     }
+                    
              break;
 
              //mátrix kiirása fileba
-            case 5:
-            
+            case 6:
                     if(matrix == NULL)
                     {
                         printf("Nincs jelenleg mentett mátrix nem tudom kiirni");
@@ -172,15 +177,14 @@ int main(int *argc, char *argv[]){
                     else{
                     
                     writeMatrix(matrix,rows,rotation,irany,olvasottfile);
-                    }
-                    
+                    }    
              break;
             
             //kilép a programbol
-            case 6:
+            case 7:
                     freematrix(matrix,rows);
-                
-                    printf("Köszönöm hogy használtad a programom,Visszavárunk!\n");
+                    clearscreen();
+                    printf("Köszönöm hogy használtad a programom, Visszavárunk!\n");
                     return 0;
             default:
                     fprintf(stderr, "\033[1;31m");
@@ -188,6 +192,8 @@ int main(int *argc, char *argv[]){
                     fprintf(stderr, "\033[0m");
         }
 
-    } while (menupont != 6);
+    } while (menupont != 7);
 
 }
+
+

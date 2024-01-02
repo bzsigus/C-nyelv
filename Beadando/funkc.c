@@ -8,38 +8,46 @@ void displayMenu(void) {
     printf(" --------------------- \n");
     printf("   Your Options:\n");
     printf("    \033[0;32m 1 - User Manual\n");
-    printf("     2 - Generate matrix\n");
-    printf("     3 - Load Mátrix\n");
-    printf("     4 - Print Matrix\n");
-    printf("     5 - Save Matrix\n");
-    printf("     6 - Exit\n\033[0m");
+    printf("     2 - Képernyö megtisztitása\n");
+    printf("     3 - Mátrix Generálása\n");
+    printf("     4 - Mátrix Betöltése\n");
+    printf("     5 - Aktuális Mátrix Kiírása\n");
+    printf("     6 - Mátrix fileba mentése\n");
+    printf("     7 - Kilépés\n\033[0m");
 }
 void userManual(void)
 {
-    printf("Matrix User Manual:\n");
+    printf("Felhasználói kézikönyv::\n");
+    printf("1 - Felhasználói kézikönyv\n");
+    printf("   -Jelenleg ezt az oopciót választottad,Ez egy leírás a program működéséről\n");
 
-    printf("1 - User Manual\n");
-    printf("Jelenleg ezt az oopciót választottad,Ez egy leírás a program működéséről\n");
+    printf("4 - képernyő megtisztitása:\n");
+    printf("   -Ez a Funkció egyszerüen eltüntei az eddig kiirt dolgokat a képernyöre\n");
 
-    printf("2 - Generate matrix:\n");
-    printf(" Ez a választás lehetőséget ad arra hogy legenráltass a programmal egy mátrixot \n");
-    printf(" 3 paramétert fog kérni a program: mekkora legyen a mártix mérete N X M \n");
+    printf("3 - Mátrix generálás::\n");
+    printf("   -Ez a választás lehetőséget ad arra hogy legenráltass a programmal egy mátrixot \n");
+    printf("       3 paramétert fog kérni a program: mekkora legyen a mártix mérete N X N (csak páratlan) \n");
     printf("                                   melyik irányba induljon el a feltöltés(Jobb,bal,fel,le)\n");               
     printf("                                   Forgatási irány óramutató járásával megegyező(cw) vagy ellentétes (ccw)\n");               
                 
-    printf("3 - Load Mátrix:\n");
-    printf(" Ez a választás lehetőséget ad arra hogy egy választott filebol betöltsünk a programnak egy Mátrixot\n");
+    printf("4 - Mátrix Betoltése:\n");
+    printf("   -Ez a választás lehetőséget ad arra hogy egy választott filebol betöltsünk a programnak egy Mátrixot\n");
                 
     
-    printf("4 - Print Matrix:\n");
-    printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot Kiirjuk a képernyőre\n");
+    printf("5 - Aktuális Matrix Kiirása:\n");
+    printf("   -Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot Kiirjuk a képernyőre\n");
 
-    printf("5 - Save Mátrix:\n");
-    printf(" Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot egy file-ba kiirjuk\n");
+    printf("6 - Mátrix fileba mentése:\n");
+    printf("   -Ez a választás lehetőséget ad arra hogy az aktuális Mátrixot egy file-ba kiirjuk\n");
 
-    printf(" 6 - exit\n");
-    printf("Kilépés a programobol\n");
+    printf("7 - Kilépés\n");
+    printf("  -Kilépés a programobol\n");
 
+}
+
+void clearscreen(void){
+        system("cls");
+        system("clear");
 }
 
 
